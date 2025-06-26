@@ -44,4 +44,3 @@ class Pokemon:
         return self.img
 
 
-
