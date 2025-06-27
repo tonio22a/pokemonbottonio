@@ -1,7 +1,8 @@
 import telebot 
 from config import token
 from telebot import types
-from logic import Pokemon
+from logic import Pokemon, Wizard, Fighter
+from random import randint
 
 
 bot = telebot.TeleBot(token) 
@@ -35,14 +36,32 @@ def callback_handler(call):
         bot.send_message(call.message.chat.id, f"🍌 Вы покормили вашего покемона бананом!")
 
 @bot.message_handler(commands=['go'])
-def go(message):
+def start(message):
     if message.from_user.username not in Pokemon.pokemons.keys():
-        pokemon = Pokemon(message.from_user.username)
-        bot.reply_to(message, pokemon.info())
-        # Отправляем фото по URL
-        bot.send_photo(message.chat.id, pokemon.img)
+        chance = randint(1,3)
+        if chance == 1:
+            pokemon = Pokemon(message.from_user.username)
+        elif chance == 2:
+            pokemon = Wizard(message.from_user.username)
+        elif chance == 3:
+            pokemon = Fighter(message.from_user.username)
+        bot.send_message(message.chat.id, pokemon.info())
+        bot.send_photo(message.chat.id, pokemon.show_img())
     else:
         bot.reply_to(message, "Ты уже создал себе покемона")
+
+@bot.message_handler(commands=['attack'])
+def attack_pok(message):
+    if message.reply_to_message:
+        if message.reply_to_message.from_user.username in Pokemon.pokemons.keys() and message.from_user.username in Pokemon.pokemons.keys():
+            enemy = Pokemon.pokemons[message.reply_to_message.from_user.username]
+            pok = Pokemon.pokemons[message.from_user.username]
+            res = pok.attack(enemy)
+            bot.send_message(message.chat.id, res)
+        else:
+            bot.send_message(message.chat.id, "Сражаться можно только с покемонами")
+    else:
+            bot.send_message(message.chat.id, "Чтобы атаковать, нужно ответить на сообщения того, кого хочешь атаковать")
 
 
 # Исправленный вызов infinity_polling

@@ -11,6 +11,8 @@ class Pokemon:
         self.pokemon_number = randint(1,1000)
         self.img = self.get_img()
         self.name = self.get_name()
+        self.hp = randint(900, 1100)
+        self.power = randint(100, 250)
 
         Pokemon.pokemons[pokemon_trainer] = self
 
@@ -37,10 +39,34 @@ class Pokemon:
 
     # Метод класса для получения информации
     def info(self):
-        return f"Имя твоего покеомона: {self.name}"
+        return f"Имя твоего покеомона: {self.name}, Урон покемона: {self.power}, Кол-во здоровья: {self.hp}"
 
     # Метод класса для получения картинки покемона
     def show_img(self):
         return self.img
+    
+    def attack(self, enemy):
+        if enemy.hp > self.power:
+            enemy.hp -= self.power
+            return f"Сражение @{self.pokemon_trainer} с @{enemy.pokemon_trainer}"
+        else:
+            enemy.hp = 0
+            return f"Победа @{self.pokemon_trainer} над @{enemy.pokemon_trainer}! "
+        
+class Fighter(Pokemon):
 
+    def __init__(self, pokemon_trainer):
+        super().__init__(pokemon_trainer)
 
+        self.hp -= randint(100, 250)
+        self.power += randint(100, 250)
+        self.name += " Fighter"
+
+class Wizard(Pokemon):
+
+    def __init__(self, pokemon_trainer):
+        super().__init__(pokemon_trainer)
+
+        self.hp += randint(100, 250)
+        self.power -= randint(50, 100)
+        self.name += " Wizard"
