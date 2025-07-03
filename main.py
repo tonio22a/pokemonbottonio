@@ -63,6 +63,14 @@ def attack_pok(message):
     else:
             bot.send_message(message.chat.id, "Чтобы атаковать, нужно ответить на сообщения того, кого хочешь атаковать")
 
+@bot.message_handler(commands=['info'])
+def infocom(message):
+    if message.from_user.username in Pokemon.pokemons.keys():
+        pokemon = Pokemon.pokemons[message.from_user.username]
+        bot.reply_to(message, f"Информация о вашем покемоне: \n\n{pokemon.info()}")
+        bot.send_photo(message.chat.id, pokemon.show_img())
+    else:
+        bot.reply_to(message, "У вас еще нет покемона! Используйте команду /go, чтобы получить покемона")
 
 # Исправленный вызов infinity_polling
 bot.infinity_polling()

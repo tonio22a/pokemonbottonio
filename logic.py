@@ -39,7 +39,7 @@ class Pokemon:
 
     # Метод класса для получения информации
     def info(self):
-        return f"Имя твоего покеомона: {self.name}, Урон покемона: {self.power}, Кол-во здоровья: {self.hp}"
+        return f"Имя: {self.name} 🐵, Урон: {self.power} ⚔️, Здоровье: {self.hp} ❤️"
 
     # Метод класса для получения картинки покемона
     def show_img(self):
@@ -60,7 +60,7 @@ class Fighter(Pokemon):
 
         self.hp -= randint(100, 250)
         self.power += randint(100, 250)
-        self.name += " Fighter"
+        self.name += ", Класс покемона: Fighter"
 
 class Wizard(Pokemon):
 
@@ -69,4 +69,4 @@ class Wizard(Pokemon):
 
         self.hp += randint(100, 250)
         self.power -= randint(50, 100)
-        self.name += " Wizard"
+        self.name += ", Класс покемона: Wizard"
