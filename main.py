@@ -7,6 +7,11 @@ from random import randint
 
 bot = telebot.TeleBot(token) 
 
+@bot.message_handler(commands=['start'])
+def startto(message):
+    bot.reply_to(message, "👋 Добро пожаловать! В боте доступны ниже приведенные команды: \n\n🐵 /go - создаёт покемона\n❓ /info - выдаёт информацию"
+                 "про покемон \n🍎 /eat - покормить покемона \n⚔️ /attack - атаковать соперника")
+
 @bot.message_handler(commands=['eat'])
 def eate(message):
     markup = types.InlineKeyboardMarkup(row_width=2)
