@@ -23,6 +23,15 @@ def eate(message):
     markup.add(btn_orange, btn_apple, btn_banana)
     bot.reply_to(message, "🤤 На выбор есть три фрукта: Апельсин, Яблоко, Банан \n\n❓ Что выберешь для кормления?", reply_markup=markup)
 
+@bot.message_handler(commands=['feed'])
+def feed_pok(message):
+    if message.from_user.username in Pokemon.pokemons.keys():
+        pok = Pokemon.pokemons[message.from_user.username]
+        res = pok.feed()
+        bot.send_message(message.chat.id, res)
+    else:
+        bot.send_message(message.chat.id, "Ты не создал себе покемона")
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):
     global botnumber, bal, playernumber
